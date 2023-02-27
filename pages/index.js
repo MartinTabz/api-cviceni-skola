@@ -2,6 +2,7 @@ import Loading from '@/components/loading';
 import styles from '@/styles/Home.module.css';
 import { useState } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
+import Image from 'next/image';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,8 +39,12 @@ export default function Home() {
     console.log(quote);
     console.log("")
 
-    console.log('quote.result; vrací:');
-    console.log(quote.result);
+    console.log('quote.quote; vrací:');
+    console.log(quote.quote);
+    console.log("")
+
+    console.log('quote.imgurl; vrací:');
+    console.log(quote.imgurl);
     console.log("")
 
     console.log('quote.error; vrací:');
@@ -47,7 +52,7 @@ export default function Home() {
     console.log("")
 
     if (!quote.error) {
-      setQuoteValue(quote.result);
+      setQuoteValue(quote);
       setQuoteError(null);
     } else if (quote.error) {
       setQuoteError('Něco se pokazilo');
@@ -69,8 +74,8 @@ export default function Home() {
           {quoteError && <h2>{quoteError}</h2>}
           {quoteValue && (
             <section>
-              <h2>Here is your quote:</h2>
-              <p>{quoteValue}</p>
+              <Image src={quoteValue.imgurl} height={256} width={256} alt={quoteValue.quote} />
+              <p>{quoteValue.quote}</p>
             </section>
           )}
         </>

@@ -6,18 +6,16 @@ export default async function handler(req, res) {
 	if (req.method === 'POST') {
 		const { input } = req.body;
 		if (!input) {
-			res.status(400).json({ error: 'Data is missing' });
+			res.status(400).json({ error: 'Struggle is missing' });
 			return;
 		}
 
 		var text = `Act as a Jordan B. Peterson. Your goal is to write short motivation quote for someone with specific struggle. The person struggle is ${input}:`;
-		
-		// Teď se pokusí zavolat na OpenAI API s definovaným nastavením
-		// Pokud uspěje, ale navrátí se nic vrátí error
-		// Pokud uspěje a vrátí něco, tato honota se pošle na frontend
-		// Pokud to trvá moc dlouho, nebo nastane error, vrátí error
+		var quote;
+		var imgurl;
+
 		try {
-			const aires = await openai.createCompletion({
+			const quoteres = await openai.createCompletion({
 				model: 'text-davinci-003',
 				prompt: text,
 				temperature: 1,
@@ -26,14 +24,27 @@ export default async function handler(req, res) {
 				frequency_penalty: 0.1,
 				presence_penalty: 0.1,
 			});
-			const suggestions = aires.data?.choices?.[0].text;
-			if (suggestions === undefined) {
+			quote = quoteres.data?.choices?.[0].text;
+			if (quote === undefined) {
 				res.status(400).send({ error: 'Failed to get response from OPENAI' });
 			}
-			res.status(200).send({ result: suggestions });
 		} catch (err) {
-			res.status(400).send({ error: 'Failed to fetch data' });
+			res.status(400).send({ error: 'Failed to create quote' });
 		}
+		try {
+			const imgres = await openai.createImage({
+				prompt: `Person struggling with ${input}`,
+				n: 1,
+				size: "1024x1024",
+			 });
+			 imgurl = imgres.data.data[0].url;
+		} catch (err) {
+			res.status(400).send({ error: 'Failed to generate image' });
+			return
+		}
+
+		res.status(200).send({ quote: quote, imgurl: imgurl });
+		return;
 	} else {
 		res.status(405).json({ error: 'Wrong request method!' });
 	}
