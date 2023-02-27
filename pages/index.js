@@ -33,6 +33,19 @@ export default function Home() {
       body: JSON.stringify(body),
     });
     const quote = res.json();
+
+    console.log('const quote = res.json(); vrací:');
+    console.log(quote);
+    console.log("")
+
+    console.log('quote.result; vrací:');
+    console.log(quote.result);
+    console.log("")
+
+    console.log('quote.error; vrací:');
+    console.log(quote.error);
+    console.log("")
+
     if (!quote.error) {
       setQuoteValue(quote.result);
       setQuoteError(null);
