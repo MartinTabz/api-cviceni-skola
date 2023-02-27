@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 
 export default function Home() {
+  const [quoteValue, setQuoteValue] = useState(null);
+  const [quoteError, setQuoteError] = useState(null);
+
   const [selectedStruggle, setSelectedStruggle] = useState('');
   const [openStruggle, setOpenStruggle] = useState(false);
   const [struggleError, setStruggleError] = useState(false);
@@ -25,9 +28,14 @@ export default function Home() {
       },
       body: JSON.stringify(body),
     });
-    console.log(res);
     const quote = res.json();
-    console.log(quote);
+    if (res.ok) {
+      setQuoteValue(quote.result);
+      setQuoteError(null);
+    } else {
+      setQuoteError('Něco se pokazilo');
+      setQuoteValue(null);
+    }
   };
 
   return (
@@ -107,6 +115,13 @@ export default function Home() {
           </form>
         </div>
       </section>
+      {quoteError && <h2>{quoteError}</h2>}
+      {quoteValue && (
+        <section>
+          <h2>Here is your quote:</h2>
+          <p>{quoteValue}</p>
+        </section>
+      )}
     </div>
   );
 }
