@@ -1,6 +1,8 @@
+// Importuje se exportovaná funkce ze souboru s propojením OpenAI
 import { openai } from '@/utils/openai';
 
 export default async function handler(req, res) {
+	// Pokud metoda je jiná než POST, vrátí se error
 	if (req.method === 'POST') {
 		const { input } = req.body;
 		if (!input) {
@@ -10,6 +12,10 @@ export default async function handler(req, res) {
 
 		var text = `Act as a Jordan B. Peterson. Your goal is to write short motivation quote for someone with specific struggle. The person struggle is ${input}:`;
 		
+		// Teď se pokusí zavolat na OpenAI API s definovaným nastavením
+		// Pokud uspěje, ale navrátí se nic vrátí error
+		// Pokud uspěje a vrátí něco, tato honota se pošle na frontend
+		// Pokud to trvá moc dlouho, nebo nastane error, vrátí error
 		try {
 			const aires = await openai.createCompletion({
 				model: 'text-davinci-003',

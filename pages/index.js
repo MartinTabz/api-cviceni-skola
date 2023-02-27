@@ -7,8 +7,14 @@ export default function Home() {
   const [openStruggle, setOpenStruggle] = useState(false);
   const [struggleError, setStruggleError] = useState(false);
 
+  // Tato funkce se vyvolá při odeslání formuláře
+  // Spouští se dole ve formě pomocí <form onSubmit={handleSubmit}>
   const handleSubmit = async (e) => {
+    // Toto zabrání refreshování stránky při odeslání formuláře
+    // Samozřejmě se do funkce musí poslat (e)
     e.preventDefault();
+
+    //Definuje se tělo requestu pomocí objektu
     const body = {
       input: selectedStruggle,
     };
