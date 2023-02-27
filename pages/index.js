@@ -25,8 +25,9 @@ export default function Home() {
       },
       body: JSON.stringify(body),
     });
+    console.log(res);
     const quote = res.json();
-    console.log(quote.result);
+    console.log(quote);
   };
 
   return (
