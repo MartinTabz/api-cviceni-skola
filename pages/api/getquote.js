@@ -2,17 +2,13 @@ import { openai } from '@/utils/openai';
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
-		const data = req.body;
-		if (!data) {
-			res.status(400).json({ error: 'Body is missing' });
-			return;
-		}
-		if (!data.input) {
+		const { input } = req.body;
+		if (!input) {
 			res.status(400).json({ error: 'Data is missing' });
 			return;
 		}
 
-		var text = `Create product description for a mug that cannot spill the water.`;
+		var text = `Act as a Jordan B. Peterson. Your goal is to write short motivation quote for someone with specific struggle. The person struggle is ${input}:`;
 		
 		try {
 			const aires = await openai.createCompletion({
