@@ -32,7 +32,7 @@ export default function Home() {
       },
       body: JSON.stringify(body),
     });
-    const quote = res.json();
+    const quote = await res.json();
 
     console.log('const quote = res.json(); vrací:');
     console.log(quote);
