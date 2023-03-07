@@ -52,9 +52,11 @@ export default function Home() {
     console.log("")
 
     if (!quote.error) {
+      console.log(quote.id);
       setQuoteValue(quote);
       setQuoteError(null);
     } else if (quote.error) {
+      console.log(quote.error);
       setQuoteError('Něco se pokazilo');
       setQuoteValue(null);
     } else {
@@ -130,14 +132,6 @@ export default function Home() {
                       }}
                     >
                       Procrastination
-                    </li>
-                    <li
-                      onClick={() => {
-                        setSelectedStruggle('erection');
-                        setOpenStruggle(false);
-                      }}
-                    >
-                      Erection
                     </li>
                     <li
                       onClick={() => {
