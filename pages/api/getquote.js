@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 	// Pokud metoda je jiná než POST, vrátí se error
 	if (req.method === 'POST') {
 		try {
-			await limiter.check(res, 2, 'CACHE_TOKEN'); // 5 requestů za minutu
+			await limiter.check(res, 4, 'CACHE_TOKEN'); // 3 requesty za minutu
 			const { input } = req.body;
 			if (!input) {
 				res.status(400).json({ error: 'Struggle is missing' });
